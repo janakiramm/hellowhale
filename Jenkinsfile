@@ -43,7 +43,7 @@ def getChangeString() {
     
 	def notify1(status){
 	emailext(
-		to: "ravinder.chiluveru@cabelas.com ,Chad.Gaul@cabelas.com, Christopher.Swob@cabelas.com",
+		to: "ravinder.chiluveru@cabelas.com",
 		subject: "${status}:' [${env.BUILD_NUMBER}]'",
 		body: """<p>${status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
 			<p>Check console output at <a href='${env.BUILD_URL}'>${env.JOB_NAME}  [${env.BUILD_NUMBER}]</a></p>"""
@@ -51,14 +51,14 @@ def getChangeString() {
     }
 	def notify2(status){
 	emailext(
-		to: "ravinder.chiluveru@cabelas.com ,Chad.Gaul@cabelas.com, Christopher.Swob@cabelas.com",
+		to: "ravinder.chiluveru@cabelas.com",
 		subject: "${status}: Job ${env.JOB_NAME} [${env.BUILD_NUMBER}]",
 		body: "Changes:\n " + getChangeString() + "\n\n<br> Check console output at: $BUILD_URL/console" + "\n"
 			)
     }
 	def notify3(status){
 	emailext(
-		to: "ravinder.chiluveru@cabelas.com ,Chad.Gaul@cabelas.com, Christopher.Swob@cabelas.com",
+		to: "ravinder.chiluveru@cabelas.com",
 		subject: "${status}:' [${env.BUILD_NUMBER}]'",
 		body: "Changes:\n " + getChangeString() + "\n\n<br> Check console output at: $BUILD_URL/console" + "\n"
 
