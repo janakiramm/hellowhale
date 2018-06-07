@@ -2,12 +2,13 @@ node {
         notify1('Started testing-whaleapp build')
         try {
 			stage('Checkout') {
-			git branch: '**', url: 'https://github.com/chilu49/hellowhale.git'
+			checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/chilu49/hellowhale.git']]])
 			}
  			stage('Build Image And Push') {
+			dir('/opt/jenkins/workspace/testing-asdfkljasdf/hellowhale/'){
  						def app = docker.build ("testing-whaleapp:${env.BUILD_ID}")
 						}
-            
+					}
 			stage ('Deploy-dev') {
 				//build job: 'account-service-pipeline', wait: false
 				sh ''' docker run -d -it --name testing-whaleapp  testing-whaleapp:${BUILD_NUMBER}'''
