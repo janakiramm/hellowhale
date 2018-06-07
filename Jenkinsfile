@@ -5,7 +5,7 @@ node {
 			checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/chilu49/hellowhale.git']]])
 			}
  			stage('Build Image And Push') {
-			dir('/opt/jenkins/workspace/testing-asdfkljasdf/hellowhale/'){
+			dir('/opt/jenkins/workspace/testing-asdfkljasdf/'){
  						def app = docker.build ("testing-whaleapp:${env.BUILD_ID}")
 						}
 					}
