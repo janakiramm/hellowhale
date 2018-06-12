@@ -11,6 +11,8 @@ node {
 					}
 			stage ('Deploy-dev') {
 				//build job: 'account-service-pipeline', wait: false
+				sh ''' docker stop testing-whaleapp'''
+				sh ''' docker rm testing-whaleapp '''
 				sh ''' docker run -d -it --name testing-whaleapp  testing-whaleapp:${BUILD_NUMBER}'''
     
        }    
