@@ -22,28 +22,49 @@ node {
         currentBuild.result = 'FAILURE'
     }
 }   
+#@NonCPS
+#def getChangeString() {
+#    MAX_MSG_LEN = 100000000
+#    def changeString = ""
+
+#    echo "Gathering SCM changes"
+#    def changeLogSets = currentBuild.changeSets
+#	echo "${changeLogSets}"
+#    for (int i = 0; i < changeLogSets.size(); i++) {
+#        def entries = changeLogSets[i].items
+#        for (int j = 0; j < entries.length; j++) {
+#            def entry = entries[j]
+#            truncated_msg = entry.msg.take(MAX_MSG_LEN)
+#            changeString += " - ${truncated_msg} [${entry.author}]\n"
+#        }
+#    }
+
+#   if (!changeString) {
+#        changeString = " - No new changes"
+#    }
+#    return changeString
+#    }
 @NonCPS
 def getChangeString() {
-    MAX_MSG_LEN = 100000000
-    def changeString = ""
-
-    echo "Gathering SCM changes"
+    String msg = ""
+    String repoUrl = '${env.BUILD_URL}'
+    def lastId = null
+    def prevId = prevBuildLastCommitId()
     def changeLogSets = currentBuild.changeSets
-	echo "${changeLogSets}"
+
     for (int i = 0; i < changeLogSets.size(); i++) {
         def entries = changeLogSets[i].items
         for (int j = 0; j < entries.length; j++) {
             def entry = entries[j]
-            truncated_msg = entry.msg.take(MAX_MSG_LEN)
-            changeString += " - ${truncated_msg} [${entry.author}]\n"
+            lastId = entry.commitId
+            changeString = changeString + "${commitInfo(entry)}"
         }
     }
-
-    if (!changeString) {
-        changeString = " - No new changes"
+    if (prevId != null && lastId != null) {
+        changeString = changeString + "\n${repoUrl}/branches/compare/${lastId}..${prevId}#diff\n"
     }
-    return changeString
-    }
+    return msg
+}
     
 	def notify1(status){
 	emailext(
