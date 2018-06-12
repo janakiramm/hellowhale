@@ -9,6 +9,8 @@ node {
  						def app = docker.build ("testing-whaleapp:${env.BUILD_ID}")
 						}
 					}
+			def changeLog = getChangeLog(passedBuilds)
+    			echo "changeLog ${changeLog}"
 			stage ('Deploy-dev') {
 				//build job: 'account-service-pipeline', wait: false
 				sh ''' docker stop testing-whaleapp'''
@@ -22,23 +24,13 @@ node {
         currentBuild.result = 'FAILURE'
     }
 }   
-@NonCPS
-def prevBuildLastCommitId() {
-    def prev = currentBuild.getPreviousBuild()
-    def items = null
-    def result = null
-    if (prev != null && prev.changeSets != null && prev.changeSets.size() && prev.changeSets[prev.changeSets.size() - 1].items.length) {
-        items = prev.changeSets[prev.changeSets.size() - 1].items
-        result = items[items.length - 1].commitId
-    }
-    return result
-}
+
 @NonCPS
 def getChangeString() {
     String msg = ""
     String repoUrl = '${env.BUILD_URL}'
     def lastId = null
-    def prevId = prevBuildLastCommitId()
+    def prevId = 143
     def changeLogSets = currentBuild.changeSets
 
     for (int i = 0; i < changeLogSets.size(); i++) {
