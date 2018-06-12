@@ -24,7 +24,7 @@ node {
 }   
 @NonCPS
 def prevBuildLastCommitId() {
-    def prev = currentBuild.previousBuild
+    def prev = currentBuild.rawBuild.getPreviousBuild()
     def items = null
     def result = null
     if (prev != null && prev.changeSets != null && prev.changeSets.size() && prev.changeSets[prev.changeSets.size() - 1].items.length) {
