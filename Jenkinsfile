@@ -26,7 +26,7 @@ node {
 
 @NonCPS
 def getChangeString() {
-    MAX_MSG_LEN = 10000
+    MAX_MSG_LEN = 10000000
     def changeString = ""
 
     echo "Gathering SCM changes"
