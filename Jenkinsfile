@@ -68,4 +68,4 @@ def getChangeString() {
 		body: "Changes:\n " + getChangeString() + "\n\n<br> Check console output at: $BUILD_URL/console" + "\n"
 
 			)
-    }
+    } 
