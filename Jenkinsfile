@@ -10,8 +10,7 @@ node {
 						}
 					}
 			def changeLog = getChangeLog(passedBuilds)
-    			echo "changeLog ${changeLog}"
-			stage ('Deploy-dev') {
+    			stage ('Deploy-dev') {
 				//build job: 'account-service-pipeline', wait: false
 				sh ''' docker stop testing-whaleapp'''
 				sh ''' docker rm testing-whaleapp '''
@@ -27,25 +26,25 @@ node {
 
 @NonCPS
 def getChangeString() {
-    String msg = ""
-    String repoUrl = '${env.BUILD_URL}'
-    def lastId = null
-    def prevId = 143
-    def changeLogSets = currentBuild.changeSets
+    MAX_MSG_LEN = 10000
+    def changeString = ""
 
+    echo "Gathering SCM changes"
+    def changeLogSets = currentBuild.rawBuild.changeSets
     for (int i = 0; i < changeLogSets.size(); i++) {
         def entries = changeLogSets[i].items
         for (int j = 0; j < entries.length; j++) {
             def entry = entries[j]
-            lastId = entry.commitId
-            changeString = changeString + "${commitInfo(entry)}"
+            truncated_msg = entry.msg.take(MAX_MSG_LEN)
+            changeString += " - ${truncated_msg} [${entry.author}]\n"
         }
     }
-    if (prevId != null && lastId != null) {
-        changeString = changeString + "\n${repoUrl}/branches/compare/${lastId}..${prevId}#diff\n"
+
+    if (!changeString) {
+        changeString = " - No new changes"
     }
-    return msg
-}
+    return changeString
+    }
     
 	def notify1(status){
 	emailext(
