@@ -9,7 +9,7 @@ node {
  						def app = docker.build ("testing-whaleapp:${env.BUILD_ID}")
 						}
 					}
-			def changeLog = getChangeLog(passedBuilds)
+			
     			stage ('Deploy-dev') {
 				//build job: 'account-service-pipeline', wait: false
 				sh ''' docker stop testing-whaleapp'''
