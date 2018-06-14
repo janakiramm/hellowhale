@@ -28,7 +28,6 @@ node {
 def getChangeString() {
     MAX_MSG_LEN = 1000
     def changeString = ""
-
     echo "Gathering SCM changes"
     def changeLogSets = currentBuild.changeSets
 	echo "${changeLogSets}"
