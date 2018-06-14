@@ -36,7 +36,7 @@ def getChangeString() {
     	for (int j = 0; j < entries.length; j++) {
         	def entry = entries[j]
             	lastId = entry.commitId
-           	msg = msg + "${commitInfo(entry)}"
+           	changeString = changeString + "${commitInfo(entry)}"
         }
     }
 
