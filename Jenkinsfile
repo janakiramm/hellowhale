@@ -31,12 +31,13 @@ def getChangeString() {
 
     echo "Gathering SCM changes"
     def changeLogSets = currentBuild.changeSets
+	echo "${changeLogSets}"
     for (int i = 0; i < changeLogSets.size(); i++) {
     	def entries = changeLogSets[i].items
     	for (int j = 0; j < entries.length; j++) {
         	def entry = entries[j]
-            	lastId = entry.commitId
-           	changeString = changeString + "${commitInfo(entry)}"
+            	truncated_msg = entry.msg.take(MAX_MSG_LEN)
+ 		changeString += " - ${truncated_msg} [${entry.author}]\n"
         }
     }
 
