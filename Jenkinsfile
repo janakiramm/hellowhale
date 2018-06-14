@@ -67,6 +67,5 @@ def getChangeString() {
 		to: "ravinder.chiluveru@cabelas.com",
 		subject: "${status}:' [${env.BUILD_NUMBER}]'",
 		body: "Changes:\n " + getChangeString() + "\n\n<br> Check console output at: $BUILD_URL/console" + "\n"
-
 			)
     } 
