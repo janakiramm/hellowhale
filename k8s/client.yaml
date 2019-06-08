@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: client
-          image: alanelias/hellowhale:6
+          image: registry.sudodeploy.io/client:6
           ports:
             - containerPort: 80
